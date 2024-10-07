@@ -15,8 +15,8 @@ import {
 import { Input } from "@/components/ui/input" 
 
 const formSchema = z.object({
-    username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+    title: z.string().min(1, {
+      message: "Movie title must be at least 1 character.",
     }),
   })
 
@@ -25,7 +25,7 @@ export default function SearchForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+        title: "",
     },
   })
  
@@ -41,14 +41,14 @@ export default function SearchForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="username"
+          name="title"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-xl"></FormLabel>
               <FormControl className=" h-16 text-2xl text-center">
                 <Input placeholder="Harry Potter" {...field}/>
               </FormControl>
-              <FormDescription className="text-xl text-center">
+              <FormDescription className="text-xl text-center text-cyan-100">
                 Find a movie by its title
               </FormDescription>
               <FormMessage />
