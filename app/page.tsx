@@ -2,7 +2,7 @@
 import MovieCard from "@/components/MovieCard";
 import SearchForm from "@/components/SearchForm";
 import { WavyBackground } from "@/components/ui/wavy-background";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   interface Movie {
@@ -21,12 +21,19 @@ export default function Home() {
   }
 
   const [movieResults, setMovieResults] = useState<MovieResults | null>(null);
+  const movieCardsRef = useRef<HTMLDivElement>(null);
 
   const handleResults = (results: MovieResults) => {
     setMovieResults(results);
     // You can also add more logic here if needed
     console.log(results.results);
   };
+
+  useEffect(() => {
+    if (movieResults && movieCardsRef.current) {
+      movieCardsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [movieResults]);
 
   return (
     <div className="bg-black">
@@ -38,8 +45,8 @@ export default function Home() {
           Professional movie ratings and reviews powered by OpenAI
         </p>
         <SearchForm onResults={handleResults} />
-      </WavyBackground>
-      <div className="w-full h-full px-10 grid grid-cols-1 md:grid-cols-3 mx-auto gap-4 relative">
+      </WavyBackground>     
+      <div ref={movieCardsRef} className="w-full h-full px-10 grid grid-cols-1 md:grid-cols-3 mx-auto gap-4 relative">
         {movieResults?.results
           .sort((a, b) => b.popularity - a.popularity)
           .map((movie) => (
