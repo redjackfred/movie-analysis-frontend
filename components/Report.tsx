@@ -5,23 +5,24 @@ import { LayoutGrid } from "./ui/layout-grid";
 import HeroSection from "./HeroSection";
 
 
-
 export default async function Report({
   imdbId,
   title,
+  movieId,
 }: {
   imdbId: string;
   title: string;
+  movieId: number;
 }) {
   const ratings = await getRatings(imdbId, title);
   const myRatingCards = await prepareRatings(ratings);
-  const movieDetails = await getMovieDetails(672);
+  const movieDetails = await getMovieDetails(movieId);
   const posterPath = await preparePosterPath(movieDetails);
 
   return (
-    <div>   
-      <HeroSection posterPath={posterPath} title={title} imdbId={imdbId} /> 
-      <div className="w-full h-screen flex-col bg-black">
+    <div className="w-full mx-auto h-full">     
+      <HeroSection posterPath={posterPath} title={title} imdbId={imdbId} />   
+      <div className="w-full h-auto flex-col">
         <div className="px-12 max-w-7xl mx-auto gap-3 relative">
           <div className="grid grid-cols-1 gap-3 xl:grid-cols-3">
             <ScoreCard
@@ -30,7 +31,7 @@ export default async function Report({
               imdbId={ratings.imdb_id}
               title={ratings.title}
             />
-            <ScoreCard 
+            <ScoreCard
               score={75}
               source={"Rotten Tomatoes"}
               imdbId={ratings.imdb_id}
@@ -56,30 +57,33 @@ export default async function Report({
             />
           </div>
         </div>
-        <div className="h-full mx-auto mt-3 relative bg-black">
+        <div className="h-auto mx-auto mt-3 relative">
           <LayoutGrid cards={myRatingCards} />
         </div>
-      </div>
+      </div>         
     </div>
   );
 }
 
-const Skeleton = () => {
+const Skeleton = ({ detail, title, score }: { detail: any; title: string, score: number }) => { 
   return (
     <div>
-      <p className="font-bold md:text-4xl text-xl text-white">IMDb rating</p>
+      <div className="relative text-8xl left-2/3 ">
+        {score}
+      </div>
+      <p className="font-bold md:text-4xl text-xl text-white">{title}</p>
       <p className="font-normal text-base text-white"></p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        A serene and tranquil retreat, this house in the woods offers a peaceful
-        escape from the hustle and bustle of city life.
-      </p>
+        {detail.commentary}
+      </p>      
     </div>
   );
 };
 
 async function preparePosterPath(movieDetails: { [key: string]: any }) {
-  const posterPath = "https://image.tmdb.org/t/p/w500" + movieDetails.poster_path;
-  
+  const posterPath =
+    "https://image.tmdb.org/t/p/w500" + movieDetails.poster_path;
+
   return posterPath;
 }
 
@@ -96,18 +100,24 @@ async function prepareRatings(ratings: { [key: string]: any }) {
   for (const key in ratings) {
     if (Object.prototype.hasOwnProperty.call(ratings, key)) {
       const rating = ratings[key];
+      const title = key
+        .replace(/_/g, " ")
+        .replace(/rating/g, "")
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
       if (typeof rating === "object") {
         myRatingCards.push({
           id: myRatingCards.length + 1,
-          content: <Skeleton />,
+          content: <Skeleton detail={rating} title={title} score={rating.rating}/>,
           className: "md:col-span-1",
-          title: key,
+          title: title,
           rating: rating,
           thumbnail: imgs[myRatingCards.length % 4],
         });
-      }     
+      }
     }
   }
-  
+
   return myRatingCards;
 }
