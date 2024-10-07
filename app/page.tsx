@@ -4,22 +4,24 @@ import SearchForm from "@/components/SearchForm";
 import { WavyBackground } from "@/components/ui/wavy-background";
 import { useState, useEffect, useRef } from "react";
 
+interface Movie {
+  id: number;
+  title: string;
+  genres: string[];
+  posterURL: string;
+  releaseDate: string;
+  popularity: number;
+  language: string;
+  overview: string;
+}
+
+interface MovieResults {
+  results: Movie[];
+}
+
+
+
 export default function Home() {
-  interface Movie {
-    id: number;
-    title: string;
-    genre_ids: number[];
-    poster_path: string;
-    release_date: string;
-    popularity: number;
-    original_language: string;
-    overview: string;
-  }
-
-  interface MovieResults {
-    results: Movie[];
-  }
-
   const [movieResults, setMovieResults] = useState<MovieResults | null>(null);
   const movieCardsRef = useRef<HTMLDivElement>(null);
 
@@ -46,7 +48,7 @@ export default function Home() {
         </p>
         <SearchForm onResults={handleResults} />
       </WavyBackground>     
-      <div ref={movieCardsRef} className="w-full h-full px-10 grid grid-cols-1 md:grid-cols-3 mx-auto gap-4 relative">
+      <div ref={movieCardsRef} className="w-3/4 h-full px-10 grid grid-cols-1 md:grid-cols-3 mx-auto gap-4 relative">
         {movieResults?.results
           .sort((a, b) => b.popularity - a.popularity)
           .map((movie) => (
@@ -54,11 +56,11 @@ export default function Home() {
               key={movie.id}
               id={movie.id}
               title={movie.title}
-              genreIds={movie.genre_ids}
-              posterPath={movie.poster_path}
-              releaseDate={movie.release_date}
+              genres={movie.genres}
+              posterPath={movie.posterURL}
+              releaseDate={movie.releaseDate}
               popularity={movie.popularity}
-              language={movie.original_language}
+              language={movie.language}
               overview={movie.overview}
             />
           ))}

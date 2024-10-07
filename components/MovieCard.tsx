@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 export default function MovieCard({
   id,
   title,
-  genreIds,
+  genres,
   posterPath,
   releaseDate,
   popularity,
@@ -15,7 +15,7 @@ export default function MovieCard({
 }: {
   id: number;
   title: string;
-  genreIds: number[];
+  genres: string[];
   posterPath: string;
   releaseDate: string;
   language: string;
@@ -28,16 +28,13 @@ export default function MovieCard({
     // Call the onMovieClick prop with the movie id
   };
 
-  if(posterPath === null) {
-    
-  }
   
   return (
     <div
       className="flex flex-col w-full h-auto bg-gray-800 rounded-lg shadow-lg"
       onClick={() => handleClick(id)}
     >
-      {posterPath === null ? (<SparklesImagePlaceHolder id={uuid()}/>) : (
+      {(posterPath === null || posterPath === undefined) ? (<SparklesImagePlaceHolder id={uuid()}/>) : (
         <Image
         src={`https://image.tmdb.org/t/p/w500/${posterPath}`}
         width={200}
@@ -53,8 +50,9 @@ export default function MovieCard({
         <p className="text-sm text-gray-400">Language: {language}</p>
         <br/>
         <p className="text-sm text-gray-400">{overview}</p>
+        <br/>
         <p>Genre:</p>
-        {genreIds.map((genreId) => (<p key={genreId} className="text-sm text-gray-400"> {genreId}</p>))}
+        {genres.map((genre) => (<p key={genre} className="text-sm text-gray-400"> {genre}</p>))}
       </div>
     </div>
   );
