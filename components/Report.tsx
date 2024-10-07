@@ -17,7 +17,7 @@ export default async function Report({
   const ratings = await getRatings(imdbId, title);
   const myRatingCards = await prepareRatings(ratings);
   const movieDetails = await getMovieDetails(movieId);
-  const posterPath = await preparePosterPath(movieDetails);
+  const posterPath = await preparePosterPath(movieDetails.poster_path);
 
   return (
     <div className="w-full mx-auto h-full">     
@@ -65,7 +65,7 @@ export default async function Report({
   );
 }
 
-const Skeleton = ({ detail, title, score }: { detail: any; title: string, score: number }) => { 
+const Skeleton = ({ commentary, title, score }: { commentary: string, title: string, score: number }) => { 
   return (
     <div>
       <div className="relative text-8xl left-2/3 ">
@@ -74,18 +74,19 @@ const Skeleton = ({ detail, title, score }: { detail: any; title: string, score:
       <p className="font-bold md:text-4xl text-xl text-white">{title}</p>
       <p className="font-normal text-base text-white"></p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        {detail.commentary}
+        {commentary}
       </p>      
     </div>
   );
 };
 
-async function preparePosterPath(movieDetails: { [key: string]: any }) {
+async function preparePosterPath(poster_path: string) {
   const posterPath =
-    "https://image.tmdb.org/t/p/w500" + movieDetails.poster_path;
+    "https://image.tmdb.org/t/p/w500" + poster_path;
 
   return posterPath;
 }
+
 
 async function prepareRatings(ratings: { [key: string]: any }) {
   const myRatingCards = [];
@@ -109,7 +110,7 @@ async function prepareRatings(ratings: { [key: string]: any }) {
       if (typeof rating === "object") {
         myRatingCards.push({
           id: myRatingCards.length + 1,
-          content: <Skeleton detail={rating} title={title} score={rating.rating}/>,
+          content: <Skeleton commentary={rating.commentary} title={title} score={rating.rating}/>,
           className: "md:col-span-1",
           title: title,
           rating: rating,

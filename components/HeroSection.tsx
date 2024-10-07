@@ -1,7 +1,7 @@
 export default function HeroSection({ posterPath, title, imdbId }: { posterPath: string; title: string; imdbId: string }) {  
     return (  
         <div   
-            className="hero-section bg-gray-800 text-white py-20 mb-16"   
+            className="hero-section bg-gray-800 text-white py-20"   
             style={{  
                 backgroundImage: 'url(' + posterPath + ')',  
                 backgroundSize: 'cover', // Cover the entire div  
