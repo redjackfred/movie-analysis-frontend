@@ -30,7 +30,7 @@ export default async function Report({
               imdbId={ratings.imdb_id}
               title={ratings.title}
             />
-            <ScoreCard
+            <ScoreCard 
               score={75}
               source={"Rotten Tomatoes"}
               imdbId={ratings.imdb_id}
@@ -105,7 +105,7 @@ async function prepareRatings(ratings: { [key: string]: any }) {
           rating: rating,
           thumbnail: imgs[myRatingCards.length % 4],
         });
-      }
+      }     
     }
   }
   

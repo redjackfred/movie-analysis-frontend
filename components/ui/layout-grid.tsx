@@ -73,6 +73,7 @@ export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
 const ImageComponent = ({ card }: { card: Card }) => {
   const title = card.title
     .replace(/_/g, " ")
+    .replace(/rating/g, "")
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
@@ -80,7 +81,7 @@ const ImageComponent = ({ card }: { card: Card }) => {
   return (
     <motion.div className="flex-col">
       <div className="relative w-full h-40">
-        <div className="absolute z-10 px-6 pt-2">{title}</div>
+        <div className="absolute z-10 px-6 pt-2 text-lg">{title}</div>
         <div className="absolute inset-0 w-1/2 left-1/4 h-1/2 top-1/4 z-10 flex items-center justify-center text-4xl text-center bg-[rgba(255,255,255,0.05)] backdrop-blur-[7px] rounded-lg">
           {rating}
         </div>
