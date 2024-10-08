@@ -1,6 +1,7 @@
 import ScoreCard from "./ScoreCard";
 import { LayoutGrid } from "./ui/layout-grid";
 import HeroSection from "./HeroSection";
+import BackButton from "./BackButton";
 
 type Card = {
   id: number;
@@ -61,6 +62,9 @@ export default async function Report({
               imdbId={ratings.imdb_id}
               title={ratings.title}
             />
+            <div className="flex justify-center items-center">
+              <BackButton />
+            </div>
           </div>
         </div>
         <div className="h-auto mx-auto mt-3 relative">
