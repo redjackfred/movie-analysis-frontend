@@ -3,6 +3,7 @@ import Image from "next/image";
 import { SparklesImagePlaceHolder } from "./SparklesImagePlaceHolder";
 import { v4 as uuid } from 'uuid';
 
+
 export default function MovieCard({
   id,
   title,
@@ -12,6 +13,7 @@ export default function MovieCard({
   popularity,
   language,
   overview,  
+  onMovieClick,
 }: {
   id: number;
   title: string;
@@ -21,19 +23,12 @@ export default function MovieCard({
   language: string;
   popularity: number;
   overview: string;
+  onMovieClick: (id: number, title: string) => void;
 }) {
-
-  const handleClick = (id: number) => {
-    console.log(id); 
-    // Call the onMovieClick prop with the movie id
-  };
 
   
   return (
-    <div
-      className="flex flex-col w-full h-auto bg-gray-800 rounded-lg shadow-lg"
-      onClick={() => handleClick(id)}
-    >
+    <div className="flex flex-col w-full h-auto bg-gray-800 rounded-lg shadow-lg" onClick={()=>onMovieClick(id, title)} >    
       {(posterPath === null || posterPath === undefined) ? (<SparklesImagePlaceHolder id={uuid()}/>) : (
         <Image
         src={`https://image.tmdb.org/t/p/w500/${posterPath}`}
@@ -53,7 +48,7 @@ export default function MovieCard({
         <br/>
         <p>Genre:</p>
         {genres.map((genre) => (<p key={genre} className="text-sm text-gray-400"> {genre}</p>))}
-      </div>
-    </div>
+      </div>       
+    </div>    
   );
 }

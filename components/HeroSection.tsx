@@ -1,4 +1,4 @@
-export default function HeroSection({ posterPath, title, imdbId }: { posterPath: string; title: string; imdbId: string }) {  
+export default function HeroSection({ posterPath, title, imdbId }: { posterPath: string; title: string | null; imdbId: string }) {  
     return (  
         <div   
             className="hero-section bg-gray-800 text-white py-20"   

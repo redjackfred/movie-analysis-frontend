@@ -2,6 +2,7 @@
 import MovieCard from "@/components/MovieCard";
 import SearchForm from "@/components/SearchForm";
 import { WavyBackground } from "@/components/ui/wavy-background";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 interface Movie {
@@ -19,11 +20,15 @@ interface MovieResults {
   results: Movie[];
 }
 
-
-
 export default function Home() {
+  const router = useRouter();  
   const [movieResults, setMovieResults] = useState<MovieResults | null>(null);
-  const movieCardsRef = useRef<HTMLDivElement>(null);
+  const movieCardsRef = useRef<HTMLDivElement>(null);  
+
+  const handleMovieClick = (id: number, title: string) => {
+    console.log(`Clicked on movie with ID: ${id} and title: ${title}`);  
+    router.push(`/reportPage?movieId=${id}&title=${title}`);
+  };
 
   const handleResults = (results: MovieResults) => {
     setMovieResults(results);
@@ -62,6 +67,7 @@ export default function Home() {
               popularity={movie.popularity}
               language={movie.language}
               overview={movie.overview}
+              onMovieClick={handleMovieClick}
             />
           ))}
       </div>
