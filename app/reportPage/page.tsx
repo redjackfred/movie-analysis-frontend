@@ -23,6 +23,7 @@ export default async function Home({
       <div className="bg-black">
         {/* <Report movieId={Number(id)} title ={String(title)}/> */}
         <Report
+          movieId={Number(movieId)}
           title={title as string}
           imdbId={imdbId}
           posterPath={posterPath}

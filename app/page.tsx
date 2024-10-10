@@ -1,12 +1,10 @@
 "use client";
 import MovieCard from "@/components/MovieCard";
-import ProgressBar from "@/components/ProgressBar";
 import SearchForm from "@/components/SearchForm";
 import { WavyBackground } from "@/components/ui/wavy-background";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, CSSProperties } from "react";
 import { Boxes } from "@/components/ui/background-boxes";
-import { cn } from "@/lib/utils";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 const override: CSSProperties = {
   display: "block",
@@ -34,7 +32,7 @@ export default function Home() {
   const [movieResults, setMovieResults] = useState<MovieResults | null>(null);
   const movieCardsRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
-  let [color, setColor] = useState("#ffffff");
+  const color ="#ffffff";
 
   const handleMovieClick = (id: number, title: string) => {
     console.log(`Clicked on movie with ID: ${id} and title: ${title}`);
