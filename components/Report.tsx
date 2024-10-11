@@ -7,6 +7,7 @@ import GenerateRelationButton from "./GenerateRelationButton";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import { useState, CSSProperties } from "react";
 import TakeawayButton from "./TakeawayButton";
+import StoryTimelineButton from "./StoryTimelineButton";
 
 type Card = {
   id: number;
@@ -37,15 +38,7 @@ export default function Report({
     display: "block",
     margin: "0 auto",
     borderColor: "red",
-  };
-
-  function handleCharacterRelationButtonClick() {
-    setLoading(true);
-  }
-
-  function handleTakeawayButtonClick() {
-    setLoading(true);
-  }
+  };  
 
   return (
     <div className="w-full mx-auto h-full">  
@@ -98,8 +91,9 @@ export default function Report({
             />
             <div className="w-full h-full flex flex-col justify-evenly items-center">
               <BackButton />
-              <GenerateRelationButton movieId={movieId} onButtonClick={handleCharacterRelationButtonClick} />
-              <TakeawayButton movieId={movieId} onButtonClick={handleTakeawayButtonClick}/>
+              <GenerateRelationButton movieId={movieId} onButtonClick={() => setLoading(true)} />
+              <TakeawayButton movieId={movieId} onButtonClick={() => setLoading(true)}/>
+              <StoryTimelineButton movieId={movieId} title={title as string} onButtonClick={() => setLoading(true)} />
             </div>
           </div>
         </div>
