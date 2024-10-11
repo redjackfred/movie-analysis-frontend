@@ -1,9 +1,9 @@
 
 export default async function getRatings(imdbid, title) {
     let request = "http://localhost:8080/generateReport?imdbid="+ imdbid +"&title=" + title;
-    const publicRatings = await getPublicRatings(imdbid).then((res) => res.json());  
+    const {Results} = await getPublicRatings(imdbid).then((res) => res.json());  
 
-    for (const rating of publicRatings.Results) {
+    for (const rating of Results) {
         console.log(rating);
         if (rating.Source === "IMDb") {
             request += "&IMDbRating=" + rating.Rating;
@@ -24,7 +24,12 @@ export default async function getRatings(imdbid, title) {
 }
 
 async function getPublicRatings(imdbid) {
-    const response = await fetch("http://localhost:8080/getPublicRatings?imdbid="+ imdbid)      
+    let response = await fetch("http://localhost:8080/getPublicRatings?imdbid="+ imdbid)    
+    // Sometimes omdb doesn't work, so we need to fetch again  
+    if(response.Results === undefined || response.Results.length === 0){
+        response = await fetch("http://localhost:8080/getPublicRatings?imdbid="+ imdbid)
+    }
+
 
     return response;
 }

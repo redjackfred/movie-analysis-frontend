@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef, CSSProperties } from "react";
 import { Boxes } from "@/components/ui/background-boxes";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import { TypingIntro } from "@/components/TypingIntro";
 const override: CSSProperties = {
   display: "block",
   margin: "0 auto",
@@ -56,8 +57,8 @@ export default function Home() {
 
   return (
     <div className="bg-black">
-      <div className="relative h-96 w-full bg-slate-900 rounded-lg">
-      <div className="absolute w-full h-auto bg-slate-900 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <div className="relative w-full bg-black rounded-lg">
+      <div className="absolute w-full h-auto bg-black z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
       <div className="fixed">
         <Boxes />
       </div>
@@ -75,12 +76,12 @@ export default function Home() {
         </div>
       )}
       <WavyBackground className="max-w-4xl mx-auto pb-40">
-        <p className="text-4xl md:text-6xl lg:text-8xl text-white font-bold inter-var text-center">
+        <p className="text-4xl md:text-8xl lg:text-12xl text-white font-bold inter-var text-center">
           Movie Analyzer
         </p>
-        <p className="text-base md:text-lg my-8 text-white font-normal inter-var text-center">
-          Professional movie ratings and reviews powered by OpenAI
-        </p>
+        <div className="relative flex justify-center">
+          <TypingIntro/>
+        </div>
         <SearchForm onResults={handleResults} />
       </WavyBackground>
       <div
